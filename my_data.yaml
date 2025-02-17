@@ -1,0 +1,6 @@
+train: /Users/xiongkaiwen/downloads/DeepLearning/badminton_data/eyes/images/train
+val: /Users/xiongkaiwen/downloads/DeepLearning/badminton_data/eyes/images/val # 验证图像路径（相对于 `path`）
+test:  # 测试图像路径（可选）
+nc: 1
+names:
+  0: badminton
