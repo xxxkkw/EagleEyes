@@ -24,7 +24,7 @@ class TrajectoryExtractor:
             video_path = os.path.join(video_dir, vid_file)
             cap = cv2.VideoCapture(video_path)
             trajectory = []
-            total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))  # Get the total number of frames in the video
+            total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
             with tqdm(total=total_frames, desc=f"Processing {vid_file}", unit="frame") as pbar:
                 while cap.isOpened():
@@ -32,7 +32,6 @@ class TrajectoryExtractor:
                     if not ret:
                         break
 
-                    # Resize the frame to a fixed size compatible with YOLOv5 (e.g., 640x640)
                     frame = cv2.resize(frame, (640, 640))
 
                     # Preprocess the frame
@@ -45,13 +44,12 @@ class TrajectoryExtractor:
 
                     if len(pred[0]) > 0:
                         for det in pred[0]:
-                            if det[5] == 0:  # Assuming class 0 is the shuttlecock
+                            if det[5] == 0:
                                 x1, y1, x2, y2 = det[:4].cpu().numpy()
                                 cx, cy = (x1 + x2) / 2, (y1 + y2) / 2
                                 trajectory.append((cx, cy))
 
-                                # Draw the trajectory point on the frame if visualization is enabled
-                                if self.visualize:
+                                if self.visualize:  # 可视化开关
                                     cv2.circle(frame, (int(cx), int(cy)), 5, (0, 255, 0), -1)
 
                     # Display the frame with the trajectory points if visualization is enabled
@@ -62,7 +60,6 @@ class TrajectoryExtractor:
                         if cv2.waitKey(1) & 0xFF == ord('q'):
                             break
 
-                    # Update the progress bar for each processed frame
                     pbar.update(1)
 
             output_path = os.path.join(self.output_dir, f"{os.path.splitext(vid_file)[0]}.csv")
@@ -74,7 +71,6 @@ class TrajectoryExtractor:
 
             cap.release()
 
-        # Close all OpenCV windows if visualization is enabled
         if self.visualize:
             cv2.destroyAllWindows()
 
