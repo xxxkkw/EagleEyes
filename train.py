@@ -131,8 +131,8 @@ def train(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data_dir", type=str, default="./trajectories")
-    parser.add_argument("--save_dir", type=str, default="./saved_models")
+    parser.add_argument("--data_dir", type=str, default="trajectories")
+    parser.add_argument("--save_dir", type=str, default="saved_models")
     parser.add_argument("--seq_len", type=int, default=30)
     parser.add_argument("--pred_steps", type=int, default=10)
     parser.add_argument("--batch_size", type=int, default=64)
